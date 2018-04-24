@@ -4,4 +4,5 @@ version = "0.1.0"
 authors = ["Rivalo <rivalo@home.nl>"]
 
 [dependencies]
-
+rocket = "0.3.8"
+rocket_codegen = "0.3.8"
