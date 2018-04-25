@@ -25,6 +25,8 @@ use std::sync::Mutex;
 type LedHashMap = HashMap<usize, LED>;
 type LedMap = Mutex<LedHashMap>;
 
+
+//LED struct defines the behaviour of one LED-strip
 #[derive(Serialize, Deserialize, Debug)]
 struct LED {
     r: u8,
@@ -32,6 +34,7 @@ struct LED {
     b: u8,
 }
 
+//CORS Fairing
 pub struct CORS();
 
 impl Fairing for CORS {
@@ -52,8 +55,6 @@ impl Fairing for CORS {
 
     }
 }
-
-
 
 #[get("/")]
 fn index() -> io::Result<NamedFile> {

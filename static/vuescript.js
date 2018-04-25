@@ -1,4 +1,4 @@
-var host = 'http://192.168.178.100/'
+var host = 'http://192.168.178.100'
 
 var ColorPicker = new iro.ColorPicker("#color-picker-container", {
     width: 320,
@@ -25,31 +25,53 @@ var vm = new Vue({
     el: '#app',
     template: '#main-page',
     data: {
-        'LEDdat': {
-            r: 255, g: 255, b: 255
-        },
+        AmountStrips: 0,
+        Ledstrip: [
+            {
+                r: 255, g: 255, b: 255
+            }
+        ],
         ledstate: true,
-        loaded: false
+        loaded: false,
+        selectedItem: 1
     }
     ,
 
     created: function () {
         this.loaded = false;
+        this.selectedItem = 1;
+        this.AmountStrips = 0;
+        this.CheckAmount();
         this.fetchData();
         this.ledstate = false;
-        this.LEDdat.r = 255;
-        this.LEDdat.g = 255;
-        this.LEDdat.b = 255;
     },
 
     methods: {
+        CheckAmount: function(){
+            this.$http.get(host + '/led')
+                .then(response =>{
+                    this.AmountStrips = response.body.length;
+                    this.loaded = true;
+                }, response => {
+                    this.loaded = false;
+                })
+                ;
+
+        },
+
         fetchData: function () {
-            this.$http.get(host + '/led/1')
+            this.$http.get(host + '/led/'+this.selectedItem)
                 .then(response => {
-                    this.LEDdat = response.body
+                    this.Ledstrip[this.selectedItem] = response.body
+                    //Dirty way to get around the problems after the first GETS
+                    try{
+                        ColorPicker.color.rgb = this.Ledstrip[this.selectedItem];
+                    }catch(err){
+
+                    }
                     this.loaded = true;
 
-                }, response =>{
+                }, response => {
                     this.loaded = false;
                 })
                 ;
@@ -57,25 +79,25 @@ var vm = new Vue({
 
         getColor: function () {
             return {
-                r: this.LEDdat.r,
-                b: this.LEDdat.b,
-                g: this.LEDdat.g
+                r: this.Ledstrip[this.selectedItem].r,
+                b: this.Ledstrip[this.selectedItem].b,
+                g: this.Ledstrip[this.selectedItem].g
             }
         },
 
         setColor: function (rgb) {
-            this.LEDdat = rgb;
+            this.Ledstrip[this.selectedItem] = rgb;
             this.sendDataLED();
         },
 
         sendDataLED: function () {
-            this.$http.put(host + '/led/1', this.LEDdat)
+            this.$http.put(host + '/led/'+this.selectedItem, this.Ledstrip[this.selectedItem])
         }
     },
 
     mounted: function () {
         this.fetchData();
-
+        
         setInterval(function () {
             this.fetchData();
 

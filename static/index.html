@@ -24,7 +24,8 @@
                 </v-ons-toolbar>
                 <v-ons-card v-show="!loaded">
                     <div class="title">Trying to reconnect..</div>
-                    <h1>        <v-ons-progress-bar indeterminate></v-ons-progress-bar>
+                    <h1>
+                        <v-ons-progress-bar indeterminate></v-ons-progress-bar>
                     </h1>
 
                 </v-ons-card>
@@ -40,6 +41,12 @@
                         <v-ons-switch input-id="switch1" v-model="ledstate" @click="">
                         </v-ons-switch>
                         <div id="color-picker-container"></div>
+
+                        <v-ons-select style="width: 40%" v-model="selectedItem" v-on:click="fetchData">
+                            <option v-for="n in AmountStrips" :value="n">
+                                {{ n }}
+                            </option>
+                        </v-ons-select>
 
 
                     </center>
