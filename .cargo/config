@@ -1,2 +1,2 @@
 [target.arm-unknown-linux-gnueabihf]
-linker = "arm-linux-gnueabihf-gcc-6.3"
+linker = "arm-linux-gnueabihf-gcc"
