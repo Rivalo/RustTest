@@ -1,4 +1,4 @@
-var host = 'http://192.168.178.100:80'
+var host = 'http://192.168.178.100/'
 
 var ColorPicker = new iro.ColorPicker("#color-picker-container", {
     width: 320,
@@ -28,11 +28,13 @@ var vm = new Vue({
         'LEDdat': {
             r: 255, g: 255, b: 255
         },
-        ledstate: true
+        ledstate: true,
+        loaded: false
     }
     ,
 
     created: function () {
+        this.loaded = false;
         this.fetchData();
         this.ledstate = false;
         this.LEDdat.r = 255;
@@ -45,7 +47,10 @@ var vm = new Vue({
             this.$http.get(host + '/led/1')
                 .then(response => {
                     this.LEDdat = response.body
+                    this.loaded = true;
 
+                }, response =>{
+                    this.loaded = false;
                 })
                 ;
         },

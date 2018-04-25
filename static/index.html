@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
     <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
@@ -11,37 +12,45 @@
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0"></script>
     <meta name="mobile-web-app-capable" content="yes">
 </head>
+
 <body>
-<div id="app">
-    <template id="main-page">
-        <v-ons-page>
-            <v-ons-toolbar>
-                <div class="center"><img src="src/ocio.png" height="95%"></div>
+    <div id="app">
+        <template id="main-page">
+            <v-ons-page>
+                <v-ons-toolbar>
+                    <div class="center">
+                        LED Controller
+                    </div>
+                </v-ons-toolbar>
+                <v-ons-card v-show="!loaded">
+                    <div class="title">Trying to reconnect..</div>
+                    <h1>        <v-ons-progress-bar indeterminate></v-ons-progress-bar>
+                    </h1>
 
-            </v-ons-toolbar>
-
-            <v-ons-card>
-                <div class="title">LED Control</div>
-                <center>
-
-                    <label class="center" for="switch1">
-                        {{ ledstate ? 'On' : 'Off' }}
-                    </label>
-                    <v-ons-switch input-id="switch1"
-                                  v-model="ledstate" @click=""
-                    >
-                    </v-ons-switch>
-                    <div id="color-picker-container"></div>
+                </v-ons-card>
 
 
-                </center>
-            </v-ons-card>
+                <v-ons-card v-show="loaded">
+                    <div class="title">LED Control</div>
+                    <center>
+
+                        <label class="center" for="switch1">
+                            {{ ledstate ? 'On' : 'Off' }}
+                        </label>
+                        <v-ons-switch input-id="switch1" v-model="ledstate" @click="">
+                        </v-ons-switch>
+                        <div id="color-picker-container"></div>
 
 
-        </v-ons-page>
-    </template>
+                    </center>
+                </v-ons-card>
 
-</div>
+
+            </v-ons-page>
+        </template>
+
+    </div>
 </body>
 <script src="src/vuescript.js"></script>
+
 </html>
