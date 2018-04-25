@@ -64,7 +64,7 @@ fn setled(id: usize, message: Json<LED>, map: State<LedMap>) -> Option<Json<Valu
     }
 }
 
-#[get("/led")]
+#[get("/led",  format = "application/json")]
 fn amountled(map: State<LedMap>) -> Option<Json<Value>> {
     let hashmap = map.lock().unwrap();
     let length = hashmap.len();
@@ -86,10 +86,21 @@ fn main() {
     leds.insert(2, led2);
 
     let led_map = LedMap::new(leds);
+    
+    //Development
+    #[cfg(target_os="windows")]
+    let config = Config::build(Environment::Staging)
+        .address("localhost")
+        .port(8000)
+        .unwrap();
+
+    //Release
+    #[cfg(target_os="linux")]
     let config = Config::build(Environment::Staging)
         .address("raspberrypi.local")
         .port(80)
         .unwrap();
+
 
     rocket::custom(config,true)
         .mount("/", routes![index, getled, setled, amountled, files])
