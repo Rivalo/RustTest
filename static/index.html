@@ -1,5 +1,47 @@
-<h1>Welcome, this is Rivalo's IoT API v1.</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <script src="src/iro.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Colors.js/1.2.4/colors.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+    <script src="https://unpkg.com/vue-onsenui@2.5.1/dist/vue-onsenui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0"></script>
+    <meta name="mobile-web-app-capable" content="yes">
+</head>
+<body>
+<div id="app">
+    <template id="main-page">
+        <v-ons-page>
+            <v-ons-toolbar>
+                <div class="center"><img src="src/ocio.png" height="95%"></div>
 
-<a href="src/fiets.jpg">
-  <img src="src/fiets.jpg" alt="Een fiets." height=200 width=200 />
-</a>
+            </v-ons-toolbar>
+
+            <v-ons-card>
+                <div class="title">LED Control</div>
+                <center>
+
+                    <label class="center" for="switch1">
+                        {{ ledstate ? 'On' : 'Off' }}
+                    </label>
+                    <v-ons-switch input-id="switch1"
+                                  v-model="ledstate" @click=""
+                    >
+                    </v-ons-switch>
+                    <div id="color-picker-container"></div>
+
+
+                </center>
+            </v-ons-card>
+
+
+        </v-ons-page>
+    </template>
+
+</div>
+</body>
+<script src="src/vuescript.js"></script>
+</html>

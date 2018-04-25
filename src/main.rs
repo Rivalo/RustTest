@@ -97,7 +97,7 @@ fn main() {
     //Release
     #[cfg(target_os="linux")]
     let config = Config::build(Environment::Staging)
-        .address("raspberrypi.local")
+        .address("192.168.178.100")
         .port(80)
         .unwrap();
 
