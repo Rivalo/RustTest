@@ -9,7 +9,7 @@ while true; do
     read -p "Adding Cross Compilation Utils to PATH? [y/n]"  yn
     case $yn in
         [Yy]* ) export PATH=$PATH:/b/Rust/Compiler; break;;
-        [Nn]* ) echo "No Path Added!"; break;;
+        [Nn]* ) echo "WARNING: No Path Added!"; break;;
         * ) echo "Please answer yes or no.";;
     esac
 done
@@ -17,9 +17,12 @@ done
 
 echo "Compiling for ARMv6 Raspberry Pi..."
 cargo build --target==arm-unknown-linux-gnueabihf
-echo "Transferring to Raspberry Pi..."
-cd target/arm-unknown-linux-gnueabihf/debug
-scp $ApplicationName $PiUserName@$PiAddress:$ApplicationName
+echo "Removing Old Files"
+ssh $PiUserName@$PiAddress rm $ApplicationName
+ssh $PiUserName@$PiAddress rm -rf static
+echo "Transferring to Raspberry Pi..." 
+scp target/arm-unknown-linux-gnueabihf/debug/$ApplicationName $PiUserName@$PiAddress:$ApplicationName
+scp -r static $PiUserName@$PiAddress:/home/pi/static
 echo "Making Executable..."
 ssh $PiUserName@$PiAddress chmod +x $ApplicationName
 echo "Done, SSH in Raspberry and run application"
