@@ -11,6 +11,8 @@ extern crate serde_derive;
 use rocket::response::NamedFile;
 use rocket::State;
 use rocket_contrib::{Json, Value};
+use rocket::config::{Config, Environment};
+
 
 use std::collections::HashMap;
 use std::io;
@@ -84,6 +86,10 @@ fn main() {
     leds.insert(2, led2);
 
     let led_map = LedMap::new(leds);
+    let mut Config = Config::new(Environment::Production).expect("cwd");
+    
+    Config.set_address("raspberrypi.local");
+    Config.set_port(80);
 
     rocket::ignite()
         .mount("/", routes![index, getled, setled, amountled, files])
