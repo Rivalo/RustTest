@@ -86,12 +86,12 @@ fn main() {
     leds.insert(2, led2);
 
     let led_map = LedMap::new(leds);
-    let mut Config = Config::new(Environment::Production).expect("cwd");
-    
-    Config.set_address("raspberrypi.local");
-    Config.set_port(80);
+    let config = Config::build(Environment::Staging)
+        .address("raspberrypi.local")
+        .port(80)
+        .unwrap();
 
-    rocket::ignite()
+    rocket::custom(config,true)
         .mount("/", routes![index, getled, setled, amountled, files])
         .manage(led_map)
         .launch();
